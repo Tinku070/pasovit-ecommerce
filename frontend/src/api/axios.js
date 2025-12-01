@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://pasovit-ecommerce.onrender.com/api", // will update AFTER backend deploy
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 
