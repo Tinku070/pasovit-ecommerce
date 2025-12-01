@@ -1,34 +1,41 @@
-import React, { useEffect, useState } from "react";
-import api from "../services/api";
-import { Link } from "react-router-dom";
+// frontend/src/pages/Products.jsx
 
-export default function Products() {
+import { useEffect, useState } from "react";
+import { getProducts } from "../api"; // IMPORTANT
+
+const Products = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get("/products").then((res) => setProducts(res.data.products));
+    getProducts()
+      .then((data) => {
+        console.log("Products Loaded:", data);
+        setProducts(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("API Error:", err);
+        setLoading(false);
+      });
   }, []);
 
+  if (loading) return <p style={{ padding: "20px" }}>Loading products...</p>;
+
   return (
-    <div>
-      <h2 style={{ marginBottom: "20px" }}>All Products</h2>
+    <div style={{ padding: "20px" }}>
+      <h2>All Products</h2>
+      {products.length === 0 && <p>No products found.</p>}
 
-      <div className="product-grid">
-        {products.map((p) => (
-          <div key={p._id} className="product-card">
-            <img src={p.image} alt={p.name} />
-
-            <h3 style={{ marginTop: "14px" }}>{p.name}</h3>
-            <p style={{ opacity: 0.6 }}>₹{p.price}</p>
-
-            <Link to={`/product/${p._id}`}>
-              <button className="btn btn-dark" style={{ marginTop: "10px" }}>
-                View Details
-              </button>
-            </Link>
-          </div>
-        ))}
-      </div>
+      {products.map((p) => (
+        <div key={p.id} style={{ margin: "10px 0" }}>
+          <h3>{p.name}</h3>
+          <p>{p.description}</p>
+          <p>Price: ₹{p.price}</p>
+        </div>
+      ))}
     </div>
   );
-}
+};
+
+export default Products;
