@@ -257,8 +257,6 @@ In `.env` of frontend:
 ## **Frontend → Vercel**
 
 ``` https://pasovit-ecommerce-1.onrender.com ```
----
-
 # **🎯 Final Notes**
 
 This project includes:  
