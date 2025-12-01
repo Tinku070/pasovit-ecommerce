@@ -14,26 +14,26 @@ connectDB();
 
 const app = express();
 
-// // 🟢 ADD CORS HERE
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173",
-//     credentials: true,
-//   })
-// );
+
 
 
 const allowedOrigins = [
-  // "http://localhost:5173",
+  "http://localhost:5173",
   "https://pasovit-frontend.onrender.com"  // <-- add your deployed frontend URL
 ];
 
 app.use(
   cors({
-    origin: allowedOrigins,
-    credentials: true,
+    origin: [
+      "http://localhost:5173",
+      "https://pasovit-frontend.onrender.com"
+    ],
+    methods: "GET,POST,PUT,DELETE,PATCH",
+    allowedHeaders: "Content-Type,Authorization",
+    credentials: true
   })
 );
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
