@@ -24,7 +24,7 @@ const app = express();
 
 
 const allowedOrigins = [
-  "http://localhost:5173",
+  // "http://localhost:5173",
   "https://pasovit-frontend.onrender.com"  // <-- add your deployed frontend URL
 ];
 

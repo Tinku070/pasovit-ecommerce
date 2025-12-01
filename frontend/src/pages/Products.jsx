@@ -1,7 +1,7 @@
 // frontend/src/pages/Products.jsx
 
 import { useEffect, useState } from "react";
-import { getProducts } from "../api"; // IMPORTANT
+import { getProducts } from "../api";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -11,7 +11,10 @@ const Products = () => {
     getProducts()
       .then((data) => {
         console.log("Products Loaded:", data);
-        setProducts(data);
+
+        // THE REAL FIX
+        setProducts(data.products || []);   // <<-- FIXED
+
         setLoading(false);
       })
       .catch((err) => {
@@ -25,10 +28,11 @@ const Products = () => {
   return (
     <div style={{ padding: "20px" }}>
       <h2>All Products</h2>
+
       {products.length === 0 && <p>No products found.</p>}
 
       {products.map((p) => (
-        <div key={p.id} style={{ margin: "10px 0" }}>
+        <div key={p._id} style={{ margin: "10px 0" }}>
           <h3>{p.name}</h3>
           <p>{p.description}</p>
           <p>Price: ₹{p.price}</p>
