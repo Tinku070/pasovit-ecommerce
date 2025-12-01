@@ -1,3 +1,4 @@
+// server.js
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
@@ -14,25 +15,53 @@ connectDB();
 
 const app = express();
 
+// -------------------------
+// ✅ FIXED CORS FOR RENDER
+// -------------------------
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://pasovit-frontend.onrender.com",
+  "https://pasovit-ecommerce-1.onrender.com",
+  "https://pasovit-frontend-1.onrender.com",
+  "https://*.onrender.com" // (optional wildcard support)
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://pasovit-frontend.onrender.com"
-    ],
+    origin: function (origin, callback) {
+      // Allow server-to-server, Postman, etc.
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.log("❌ BLOCKED BY CORS:", origin);
+        callback(new Error("CORS Not Allowed"));
+      }
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
 
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 
-app.get("/", (req, res) => res.send("API running"));
+// Root Route
+app.get("/", (req, res) => {
+  res.send("API running... Pasovit Ecommerce Backend is Live 🚀");
+});
 
+// Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
