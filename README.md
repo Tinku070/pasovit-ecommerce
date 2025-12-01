@@ -252,11 +252,11 @@ In `.env` of frontend:
 # **🌍 Deployment**
 
 ## **Backend → Render**
-```https://pasovit-ecommerce-eojr.onrender.com```
+``` https://pasovit-ecommerce-xvq0.onrender.com/api ```
 
 ## **Frontend → Vercel**
 
-```[https://pasovit-ecommerce-eojr.onrender.com](https://pasovit-frontend.onrender.com)```
+``` https://pasovit-ecommerce-1.onrender.com ```
 ---
 
 # **🎯 Final Notes**
