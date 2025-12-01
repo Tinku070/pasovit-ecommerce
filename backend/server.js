@@ -20,30 +20,38 @@ const app = express();
 // -------------------------
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://pasovit-frontend.onrender.com",
+
+  // Your current frontend
   "https://pasovit-ecommerce-1.onrender.com",
+
+  // Optional past URLs
+  "https://pasovit-frontend.onrender.com",
   "https://pasovit-frontend-1.onrender.com",
-  "https://*.onrender.com" // (optional wildcard support)
+  "https://pasovit-ecommerce-xvq0.onrender.com",
+
+  // Optional wildcard (keep last)
+  "https://*.onrender.com",
 ];
+
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow server-to-server, Postman, etc.
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        console.log("❌ BLOCKED BY CORS:", origin);
-        callback(new Error("CORS Not Allowed"));
+        return callback(null, true);
       }
+
+      console.log("❌ BLOCKED BY CORS:", origin);
+      return callback(new Error("CORS Not Allowed"));
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 
 // Middleware
 app.use(express.json());
